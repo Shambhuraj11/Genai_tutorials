@@ -44,3 +44,25 @@ D. Vector Embedding indexing
    
    - Vector index is data structure used to efficiently store and retrieve high dimensional vector data, enabling fast similarity search and nearest neighbour queries.
    
+### Retrieval Processes
+
+   A. Standard naive approach: 
+      
+      - This works well with small chunks. 
+
+   B. Sentence-window retrieval 
+     
+      - During retrieval, we retrieve the sentence that are most relevant to user query via similarity search and replace the sentence with full surrounding context (Using static-sentence-window around the context, implemented by retrieving sentences surrounding the one being originally retrieved)
+
+   C. Auto-merging/ Hierarchical  Retriever
+
+      - This aims to combine information from multiple resources. This method is useful when single corpus do not fully answer the user query rather answer lies in combining information from multiple resources.
+      - chances of overgeneralization and Computationally heavy
+
+   D. Ensemble Retrieval and Re-Ranking
+
+      - This method involves passing usery query across different retrievers. Ensemble retriever ensemble results from different retrievers. EnsembleRetriever rerank the results of constituent retriever based on reciprocal rank fusion algorithm
+      
+       
+
+   
