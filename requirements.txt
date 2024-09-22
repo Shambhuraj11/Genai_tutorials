@@ -1,0 +1,10 @@
+langchain
+langchain-huggingface
+langchain-groq
+huggingface_hub
+python-dotenv
+streamlit
+cassio
+datasets
+sentence-transformers
+PyPDF2

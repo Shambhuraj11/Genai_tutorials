@@ -1,68 +1,59 @@
 # RAG Tutorials Files
 
 ## What is RAG?
-RAG is Retrieval angumented generation, it is a technique that enhances language model generation by incorporating external knowledge.This typically done by retrieving relevent information from a large corpus of documents to answer particular question.
 
-or 
+Retrieval-Augmented Generation (RAG) is a technique that enhances language model outputs by incorporating external knowledge. It achieves this by retrieving relevant information from a large corpus of documents to answer a specific query.
 
-With RAG, LLM can able to leverage knowledge and information this is not necessarily in its weight means not a part of its training data.
+Alternatively,
+
+RAG enables Large Language Models (LLMs) to leverage knowledge and information that is not embedded within their model weights, meaning it can access information beyond its training data.
 
 ## Why should use RAG?
-- limited knowledge access
-- Lack of transparency : LLM struggles to provide transparent or relevant information
-- Hallucination in answers.
+- Limited Knowledge Access: LLMs have a fixed knowledge base tied to their training data, which may become outdated or incomplete over time.
+- Lack of Transparency: LLMs often struggle to provide clear, relevant information or justify their responses.
+- Hallucinations: LLMs may generate incorrect or fabricated answers, known as hallucinations. RAG helps mitigate this by grounding responses in external data.
 
 ## RAG Architecture
 
 ### Ingestion
 
-A. Document:
+#### A. Document Sources:
+   A typical RAG pipeline incorporates knowledge from sources such as:
+      - Local files (CSV, TSV, TXT)
+      - PDFs
+      - JSON files
+      - Web pages
+      - Cloud-based documents
 
-   - A typical RAG pipeline have knowledge source like local files, CSV, TSV, txt, pdf, json, web pages, cloud files.
+#### B. Chunking:
+      - The document data is split into smaller, manageable chunks.
+      - Chunking ensures that the model isn’t overwhelmed with too much information, keeping the input    within the context limit of the model.
+      - An ideal chunk size balances the need for context. Chunks that are too small may lack sufficient information to answer a query, while chunks that are too large may introduce noise, reducing retrieval accuracy.
+      - Factors influencing chunk size include data characteristics, retriever constraints, available memory, computational resources, task requirements, and overlap considerations.
 
-B. Chunking 
-   
-   - Here we split data into chunks.
+#### C. Embedding:
+     - Embeddings are numerical representations of text data.
+     - Examples include frequency-based embeddings like TF-IDF and n-grams, as well as neural network-based embeddings like Word2Vec, BERT, and ELMo.
+     - Sentence transformers are typically used to generate embeddings at the sentence level, capturing the overall meaning of a sentence.
 
-   - It ensure model is not overloaded by too much information and help to keep input under input context limit of model.
+#### D. Vector Embedding Indexing:
+     - Vector indices are data structures designed to efficiently store and retrieve high-dimensional vector data, enabling fast similarity search and nearest-neighbour queries.
 
-   - Too small size of chunk will won't provide you information enough to answer question and Too large size of chunk will introduce noise and reducing the retrieval accuracy
-
-   - Data Characterstics, Retriever constraints, memory and computational resources, Task requirement, experimentation, Overlap Consideration are factor can help to decide ideal chunk size.
-
-   - https://www.pinecone.io/learn/chunking-strategies/
-
-C. Embedding
-   
-   - Vector embedding is numerical representation of text data.
-
-   - Frequency based embeddings: TF-IDF, N-Grams, Neural Network based embeddings: Word2Vec, Bert, Elmo
-
-   - Sentence transformers is typically optimized for producing numerical representation at sentence level, also capturing the overall semantics of sentences.
-
-D. Vector Embedding indexing
-   
-   - Vector index is data structure used to efficiently store and retrieve high dimensional vector data, enabling fast similarity search and nearest neighbour queries.
-   
 ### Retrieval Processes
 
-   A. Standard naive approach: 
-      
-      - This works well with small chunks. 
+#### A. Standard Naive Approach:
+   Works well with small, manageable chunks of data.
 
-   B. Sentence-window retrieval 
-     
-      - During retrieval, we retrieve the sentence that are most relevant to user query via similarity search and replace the sentence with full surrounding context (Using static-sentence-window around the context, implemented by retrieving sentences surrounding the one being originally retrieved)
+#### B. Sentence-Window Retrieval:
+    - Retrieves the sentence most relevant to the user’s query using similarity search.
+    - A static sentence window is applied to retrieve surrounding context, thus improving the quality of the response.
 
-   C. Auto-merging/ Hierarchical  Retriever
+#### C. Auto-Merging / Hierarchical Retrieval:
+    - Combines information from multiple sources to provide a more comprehensive answer.
+    - Particularly useful when a single corpus doesn't fully answer a query, but combining data from multiple sources can.
+    - However, this method can be computationally intensive and prone to overgeneralization.
 
-      - This aims to combine information from multiple resources. This method is useful when single corpus do not fully answer the user query rather answer lies in combining information from multiple resources.
-      - chances of overgeneralization and Computationally heavy
-
-   D. Ensemble Retrieval and Re-Ranking
-
-      - This method involves passing usery query across different retrievers. Ensemble retriever ensemble results from different retrievers. EnsembleRetriever rerank the results of constituent retriever based on reciprocal rank fusion algorithm
-      
-       
-
-   
+#### D. Ensemble Retrieval and Re-Ranking:
+    - The user’s query is passed across multiple retrievers, and the results are aggregated.
+    - Ensemble Retriever combines results from different retrieval methods.
+    - EnsembleRetriever re-ranks the results using algorithms like Reciprocal Rank Fusion, enhancing the accuracy and relevance of the final answer.
